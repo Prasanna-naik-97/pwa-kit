@@ -344,7 +344,8 @@ const PRESETS = [
                 'project.demo.enableDemoSettings': false
             }),
         assets: ['translations'],
-        private: true
+        private: true,
+        extensions: ['SFDC_EXT_STORE_LOCATOR']
     },
     {
         id: 'chakra-storefront-private-slas-client',
@@ -911,7 +912,7 @@ const main = async (opts) => {
             value: key
         }))
 
-        const pluginAnswers = await inquirer.prompt([
+        const pluginAnswers = context.preset?.extensions ? {selectedPlugins: context.preset.extensions} : await inquirer.prompt([
             {
                 type: 'checkbox',
                 name: 'selectedPlugins',
