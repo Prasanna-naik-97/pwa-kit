@@ -2,6 +2,7 @@
 - Migrate directory structure from `app/*` to `src/*` [#2693](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2693)
 - Upgrade to Chakra UI v3 and Decomposition on Cart, PLP, PDP and Cart [2839](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2839), [#2872](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2872), [#2878](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2878), [#2924](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2924)
 - Create a safe version of `<Portal>` that won't break the SSR rendering [#2785](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2785)
+- Fold Store Locator into template-chakra-storefront as an extension [#2941] (https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2941)
 
 ## 0.1.0-extensibility-preview.4
 - Fix hreflang alternate links [#2269](https://github.com/SalesforceCommerceCloud/pwa-kit/pull/2269)
