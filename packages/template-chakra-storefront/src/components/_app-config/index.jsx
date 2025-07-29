@@ -12,9 +12,9 @@ import {ChakraProvider} from '@chakra-ui/react'
 // Removes focus for non-keyboard interactions for the whole application
 import 'focus-visible/dist/focus-visible'
 
-import theme from '../../../src/theme'
+import theme from '../../theme'
 // import {MultiSiteProvider, AppConfigProvider} from '../../../src/contexts'
-import {MultiSiteProvider} from '../../contexts'
+import {MultiSiteProvider, StoreLocatorProvider} from '../../contexts'
 import {useAppOrigin} from '../../hooks/use-app-origin'
 import {resolveSiteFromUrl, resolveLocaleFromUrl} from '../../utils/site-utils'
 import {getConfig} from '@salesforce/pwa-kit-runtime/utils/ssr-config'
@@ -25,6 +25,16 @@ import {CommerceApiProvider} from '@salesforce/commerce-sdk-react'
 import {withReactQuery} from '@salesforce/pwa-kit-react-sdk/ssr/universal/components/with-react-query'
 import {useCorrelationId} from '@salesforce/pwa-kit-react-sdk/ssr/universal/hooks'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+import {
+    DEFAULT_DNT_STATE,
+    STORE_LOCATOR_RADIUS,
+    STORE_LOCATOR_RADIUS_UNIT,
+    STORE_LOCATOR_DEFAULT_COUNTRY,
+    STORE_LOCATOR_DEFAULT_COUNTRY_CODE,
+    STORE_LOCATOR_DEFAULT_POSTAL_CODE,
+    STORE_LOCATOR_DEFAULT_PAGE_SIZE,
+    STORE_LOCATOR_SUPPORTED_COUNTRIES
+} from '../../../src/config/constants'
 
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
@@ -66,6 +76,22 @@ const AppConfig = ({children, locals = {}}) => {
     const passwordlessLoginCallbackURI = useMemo(() => passwordlessCallback, [passwordlessCallback])
     const defaultDnt = useMemo(() => locals.appConfig.dnt, [locals.appConfig.dnt])
 
+    /* eslint-disable react-hooks/rules-of-hooks */
+    const storeLocatorConfig =
+        SFDC_EXT_STORE_LOCATOR &&
+        useMemo(
+            () => ({
+                radius: STORE_LOCATOR_RADIUS,
+                radiusUnit: STORE_LOCATOR_RADIUS_UNIT,
+                defaultCountry: STORE_LOCATOR_DEFAULT_COUNTRY,
+                defaultCountryCode: STORE_LOCATOR_DEFAULT_COUNTRY_CODE,
+                defaultPostalCode: STORE_LOCATOR_DEFAULT_POSTAL_CODE,
+                defaultPageSize: STORE_LOCATOR_DEFAULT_PAGE_SIZE,
+                supportedCountries: STORE_LOCATOR_SUPPORTED_COUNTRIES
+            }),
+            []
+        )
+
     return (
         <CommerceApiProvider
             shortCode={commerceApiConfig.parameters.shortCode}
@@ -85,7 +111,9 @@ const AppConfig = ({children, locals = {}}) => {
             // enablePWAKitPrivateClient={true}
         >
             <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>
-                <ChakraProvider value={theme}>{children}</ChakraProvider>
+                <StoreLocatorProvider config={storeLocatorConfig}>
+                    <ChakraProvider value={theme}>{children}</ChakraProvider>
+                </StoreLocatorProvider>
             </MultiSiteProvider>
             <ReactQueryDevtools />
         </CommerceApiProvider>

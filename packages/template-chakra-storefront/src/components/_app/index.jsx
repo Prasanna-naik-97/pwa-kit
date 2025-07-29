@@ -8,6 +8,7 @@
 // Third-Party Imports
 import React from 'react'
 import PropTypes from 'prop-types'
+import {useDisclosure} from '@chakra-ui/react'
 import {useLocation} from 'react-router-dom'
 
 // Removes focus for non-keyboard interactions for the whole application
@@ -48,16 +49,14 @@ const App = (props) => {
     const {targetLocale, messages, site, locale, buildUrl, currency, appOrigin} =
         useAppLocalization()
     const {onLogoClick, onCartClick, onAccountClick, onWishlistClick} = useAppNavigation()
+    const {isDrawerMenuOpen, onDrawerMenuOpen, onDrawerMenuClose, dntNotification} = useAppModals()
+
+    /* eslint-disable react-hooks/rules-of-hooks */
     const {
-        isDrawerMenuOpen,
-        onDrawerMenuOpen,
-        onDrawerMenuClose,
-        dntNotification
-        // TODO: Store locator variables will be used when feature is enabled:
-        // isOpenStoreLocator,
-        // onOpenStoreLocator,
-        // onCloseStoreLocator
-    } = useAppModals()
+        open: isOpenStoreLocator,
+        onOpen: onOpenStoreLocator,
+        onClose: onCloseStoreLocator
+    } = SFDC_EXT_STORE_LOCATOR && useDisclosure()
 
     useAppBasket(basket, customer, currency)
     const {isOnline} = useAppOnlineStatus()
@@ -82,10 +81,8 @@ const App = (props) => {
         onMyCartClick: onCartClick,
         onMyAccountClick: onAccountClick,
         onWishlistClick,
-        // TODO: Will be enabled when store locator feature is ready
-        // onStoreLocatorClick: onOpenStoreLocator,
-        onStoreLocatorClick: noop,
-        mobileNavigationProps
+        mobileNavigationProps,
+        onStoreLocatorClick: SFDC_EXT_STORE_LOCATOR ? onOpenStoreLocator : noop
     }
 
     const seoProps = {
@@ -101,10 +98,10 @@ const App = (props) => {
     const modalProps = {
         authModal,
         dntNotification
-        // TODO: Store locator modal will be added when enabled:
-        // isOpenStoreLocator,
-        // onCloseStoreLocator
     }
+
+    SFDC_EXT_STORE_LOCATOR && (modalProps.isOpenStoreLocator = isOpenStoreLocator)
+    SFDC_EXT_STORE_LOCATOR && (modalProps.onCloseStoreLocator = onCloseStoreLocator)
 
     return (
         <Box className="sf-app" css={styles.container}>

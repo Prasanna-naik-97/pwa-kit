@@ -17,5 +17,11 @@ module.exports = {
         // SFDC_EXT_HELLO_WORLD_ENABLED: {
         //     description: 'The Hello World Extension'
         // },
+        SFDC_EXT_STORE_LOCATOR: {
+            name: 'Store Locator',
+            description: 'Store Locator Extension',
+            installInstruction: 'install-store-locator.mdc',
+            uninstallInstruction: 'uninstall-store-locator.mdc'
+        }
     }
 }
