@@ -42,11 +42,12 @@ const ProductDetail = loadable(() => import('../src/pages/product-detail'), {fal
 const ProductList = loadable(() => import('../src/pages/product-list'), {
     fallback
 })
-const StoreLocator =
-    SFDC_EXT_STORE_LOCATOR &&
-    loadable(() => import('../src/pages/store-locator'), {
-        fallback
-    })
+const StoreLocator = SFDC_EXT_STORE_LOCATOR
+    ? loadable(() => import('../src/pages/store-locator'), {
+          fallback
+      })
+    : null
+
 const Wishlist = loadable(() => import('../src/pages/account/wishlist'), {
     fallback
 })
