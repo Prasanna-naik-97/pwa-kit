@@ -443,7 +443,8 @@ export const getAppleButtonConfig = (
     return buttonConfig
 }
 
-export const ApplePayExpress = ({sku, quantity = 1, isPdpMode = false, basketData}) => {
+export const ApplePayExpress = ({sku, quantity = 1, isPdpMode = false, basketData, manager}) => {
+    console.log('[ApplePayExpress] Confirming manager is available', manager)
     const {locale, site} = useMultiSite()
     const navigate = useNavigation()
     
@@ -577,10 +578,18 @@ export const ApplePayExpress = ({sku, quantity = 1, isPdpMode = false, basketDat
             }
 
             const handleApplePayUnavailable = () => {
-                sendExpressMessage(EXPRESS_MESSAGES.PAYMENT_UNAVAILABLE, {
-                    PAYMENT_METHOD
-                })
+                if (manager) {
+                    console.log('[ApplePayExpress] Apple Pay unavailable, setting manager to unavailable')
+                    manager.setPaymentMethodUnavailable(PAYMENT_METHOD)
+                }
             }
+
+            // MARK UNAVAILABLE IMMEDIATELY -- see if we are rendering correctly
+            // if (manager) {
+            //     console.log('!!!!!!!!!!!! [ApplePayExpress] Manager is available, marking Apple Pay as unavailable immediately')
+            //     handleApplePayUnavailable()
+            //     return;
+            // }
 
             try {
                 let checkout
@@ -646,9 +655,9 @@ export const ApplePayExpress = ({sku, quantity = 1, isPdpMode = false, basketDat
 
                 try {
                     await applePayButton.mount(paymentContainer.current)
-                    sendExpressMessage(EXPRESS_MESSAGES.PAYMENT_AVAILABLE, {
-                        PAYMENT_METHOD
-                    })
+                    if (manager) {
+                        manager.setPaymentMethodAvailable(PAYMENT_METHOD)
+                    }
                 } catch (error) {
                     console.error('Failed to mount Apple Pay button:', error)
                     handleApplePayUnavailable()
@@ -688,5 +697,6 @@ ApplePayExpress.propTypes = {
     sku: PropTypes.string,
     quantity: PropTypes.number,
     isPdpMode: PropTypes.bool,
-    basketData: PropTypes.object
+    basketData: PropTypes.object,
+    manager: PropTypes.object
 }
