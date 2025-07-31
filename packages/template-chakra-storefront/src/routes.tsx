@@ -46,7 +46,9 @@ const StoreLocator = SFDC_EXT_STORE_LOCATOR
     ? loadable(() => import('../src/pages/store-locator'), {
           fallback
       })
-    : null
+    : loadable(() => Promise.resolve({default: () => null}), {
+          fallback
+      })
 
 const Wishlist = loadable(() => import('../src/pages/account/wishlist'), {
     fallback
