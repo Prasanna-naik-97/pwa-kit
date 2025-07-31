@@ -215,6 +215,9 @@ const createRetailReactAppQuestions = (defaults = {}) => [
     }
 ]
 
+// fetch the list of configured plugins
+const configuredPlugins = Object.keys(pluginConfig?.plugins || {})
+
 // Project dictionary describing details and how the generator should ask questions etc.
 const PRESETS = [
     {
@@ -345,7 +348,7 @@ const PRESETS = [
             }),
         assets: ['translations'],
         private: true,
-        extensions: ['SFDC_EXT_STORE_LOCATOR']
+        extensions: configuredPlugins
     },
     {
         id: 'chakra-storefront-private-slas-client',
@@ -500,7 +503,7 @@ const PRESETS = [
             ['project.name']: 'express-minimal'
         },
         private: true,
-        extensions: ['SFDC_EXT_STORE_LOCATOR']
+        extensions: configuredPlugins
     },
     {
         id: 'express-minimal',
