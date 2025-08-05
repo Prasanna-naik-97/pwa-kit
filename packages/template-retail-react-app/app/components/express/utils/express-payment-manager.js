@@ -191,7 +191,7 @@ class ExpressPaymentManager {
         }
 
         console.log('[ExpressPaymentManager] Completion message payload:', payload)
-        sendExpressMessage(EXPRESS_MESSAGES.PAYMENT_DONE, payload)
+        sendExpressMessage(EXPRESS_MESSAGES.PAYMENT_AVAILABLE, payload)
     }
 
     /**
