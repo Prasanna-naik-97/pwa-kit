@@ -103,16 +103,17 @@ const SearchBar = (props) => {
  * @param   {React.ReactElement} props.children - React Node to be rendered inside Header
  * @return  {React.ReactElement} - Header component
  */
-const Header = ({
-    children,
-    onMenuClick = noop,
-    onMyAccountClick = noop,
-    onLogoClick = noop,
-    onMyCartClick = noop,
-    onWishlistClick = noop,
-    onStoreLocatorClick = noop,
-    ...props
-}) => {
+const Header = (context) => {
+    const {
+        children,
+        onMenuClick = noop,
+        onMyAccountClick = noop,
+        onLogoClick = noop,
+        onMyCartClick = noop,
+        onWishlistClick = noop,
+        ...props
+    } = context
+    const onStoreLocatorClick = SFDC_EXT_STORE_LOCATOR && (context.onStoreLocatorClick || noop)
     const intl = useIntl()
     const {formatMessage} = intl
     const {
@@ -122,9 +123,9 @@ const Header = ({
     const {isRegistered} = useCustomerType()
     const logout = useAuthHelper(AuthHelpers.Logout)
     const navigate = useNavigation()
-    const openModal = () => {
+    const openModal = SFDC_EXT_STORE_LOCATOR && (() => {
         onStoreLocatorClick()
-    }
+    })
 
     const [showLoading, setShowLoading] = useState(false)
 
@@ -354,18 +355,21 @@ const Header = ({
     )
 }
 
-Header.propTypes = {
+const propTypes = {
     children: PropTypes.node,
     onMenuClick: PropTypes.func,
     onLogoClick: PropTypes.func,
     onMyAccountClick: PropTypes.func,
     onWishlistClick: PropTypes.func,
     onMyCartClick: PropTypes.func,
-    onStoreLocatorClick: PropTypes.func,
     searchInputRef: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.shape({current: PropTypes.elementType})
     ])
 }
+SFDC_EXT_STORE_LOCATOR && (
+    propTypes.onStoreLocatorClick = PropTypes.func
+)
+Header.propTypes = propTypes
 
 export default Header

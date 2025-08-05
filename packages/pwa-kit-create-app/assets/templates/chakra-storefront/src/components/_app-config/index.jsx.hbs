@@ -12,7 +12,11 @@ import {ChakraProvider} from '@chakra-ui/react'
 import 'focus-visible/dist/focus-visible'
 
 import theme from '../../../src/theme'
+{{#if selectedPlugins.SFDC_EXT_STORE_LOCATOR}}
 import {MultiSiteProvider, StoreLocatorProvider} from '../../../src/contexts'
+{{else}}
+import {MultiSiteProvider} from '../../../src/contexts'
+{{/if}}
 import {useAppOrigin} from '../../../src/hooks/use-app-origin'
 import {
     resolveSiteFromUrl,
@@ -27,6 +31,7 @@ import {CommerceApiProvider, resetDehydratedStateTimeStamp} from '@salesforce/co
 import {withReactQuery} from '@salesforce/pwa-kit-react-sdk/ssr/universal/components/with-react-query'
 import {useCorrelationId} from '@salesforce/pwa-kit-react-sdk/ssr/universal/hooks'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
+{{#if selectedPlugins.SFDC_EXT_STORE_LOCATOR}}
 import {
     DEFAULT_DNT_STATE,
     STORE_LOCATOR_RADIUS,
@@ -37,6 +42,11 @@ import {
     STORE_LOCATOR_DEFAULT_PAGE_SIZE,
     STORE_LOCATOR_SUPPORTED_COUNTRIES
 } from '../../../src/config/constants'
+{{else}}
+import {
+    DEFAULT_DNT_STATE
+} from '../../../src/config/constants'
+{{/if}}
 
 /**
  * Use the AppConfig component to inject extra arguments into the getProps
@@ -58,6 +68,7 @@ const AppConfig = ({children, locals = {}}) => {
 
     const passwordlessCallback = locals.appConfig.login?.passwordless?.callbackURI
 
+{{#if selectedPlugins.SFDC_EXT_STORE_LOCATOR}}
     const storeLocatorConfig = useMemo(() => ({
         radius: STORE_LOCATOR_RADIUS,
         radiusUnit: STORE_LOCATOR_RADIUS_UNIT,
@@ -67,6 +78,7 @@ const AppConfig = ({children, locals = {}}) => {
         defaultPageSize: STORE_LOCATOR_DEFAULT_PAGE_SIZE,
         supportedCountries: STORE_LOCATOR_SUPPORTED_COUNTRIES
     }), [])
+{{/if}}
 
     return (
         <CommerceApiProvider
@@ -89,9 +101,13 @@ const AppConfig = ({children, locals = {}}) => {
             {{/if}}
         >
             <MultiSiteProvider site={locals.site} locale={locals.locale} buildUrl={locals.buildUrl}>
+{{#if selectedPlugins.SFDC_EXT_STORE_LOCATOR}}
                 <StoreLocatorProvider config={storeLocatorConfig}>
                     <ChakraProvider theme={theme}>{children}</ChakraProvider>
                 </StoreLocatorProvider>
+{{else}}
+                <ChakraProvider theme={theme}>{children}</ChakraProvider>
+{{/if}}
             </MultiSiteProvider>
             <ReactQueryDevtools />
         </CommerceApiProvider>

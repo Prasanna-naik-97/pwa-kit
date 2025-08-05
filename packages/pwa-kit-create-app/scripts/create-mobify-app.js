@@ -929,6 +929,8 @@ const main = async (opts) => {
         pluginAnswers.selectedPlugins.forEach((plugin) => {
             selectedPlugins[plugin] = true
         })
+        // add selectedPlugins to context for Handlebars templates
+        context.selectedPlugins = selectedPlugins
     }
 
     if (!OUTPUT_DIR_FLAG_ACTIVE) {

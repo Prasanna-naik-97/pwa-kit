@@ -82,8 +82,9 @@ const App = (props) => {
         onMyAccountClick: onAccountClick,
         onWishlistClick,
         mobileNavigationProps,
-        onStoreLocatorClick: SFDC_EXT_STORE_LOCATOR ? onOpenStoreLocator : noop
     }
+
+    SFDC_EXT_STORE_LOCATOR && (headerProps.onStoreLocatorClick = onOpenStoreLocator)
 
     const seoProps = {
         appConfig,

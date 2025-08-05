@@ -139,7 +139,7 @@ export const STORE_LOCATOR_DEFAULT_COUNTRY_CODE = SFDC_EXT_STORE_LOCATOR && 'DE'
 export const STORE_LOCATOR_DEFAULT_PAGE_SIZE = SFDC_EXT_STORE_LOCATOR && 10
 export const STORE_LOCATOR_NUM_STORES_PER_REQUEST_API_MAX = SFDC_EXT_STORE_LOCATOR && 200 // This is an API limit and is therefore not configurable
 
-export const DEFAULT_DNT_STATE = SFDC_EXT_STORE_LOCATOR && true
+export const DEFAULT_DNT_STATE = true
 
 // Constants for shopper context
 // Supported non-string field types used in SHOPPER_CONTEXT_SEARCH_PARAMS below.
