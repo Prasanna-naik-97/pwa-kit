@@ -81,7 +81,7 @@ const App = (props) => {
         onMyCartClick: onCartClick,
         onMyAccountClick: onAccountClick,
         onWishlistClick,
-        mobileNavigationProps,
+        mobileNavigationProps
     }
 
     SFDC_EXT_STORE_LOCATOR && (headerProps.onStoreLocatorClick = onOpenStoreLocator)
