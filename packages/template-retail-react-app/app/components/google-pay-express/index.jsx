@@ -185,7 +185,7 @@ export const getGoogleButtonConfig = (
 
     const buttonConfig = {
         showPayButton: true,
-        buttonType: 'buy',
+        buttonType: 'plain',
         isExpress: true,
         shippingAddressRequired: true,
         // shippingAddressParameters: {"allowedCountryCodes": ["US"]}, // If you want to restrict country codes, you can do that here
