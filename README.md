@@ -9,7 +9,7 @@
 
 </div>
 
-<div align="center">
+<div align="center test">
 
 📖 [Read Docs](https://sfdc.co/pwa-kit) |
 🏖️ [View Demo](https://pwa-kit.mobify-storefront.com/) |
